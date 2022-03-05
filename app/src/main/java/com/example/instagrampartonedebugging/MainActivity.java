@@ -77,11 +77,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void launchCamera() {
+    public void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
-        Uri fileProvider = FileProvider.getUriForFile(MainActivity.this, "com.codepath.provider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(MainActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            // Start the image capture intent to take photo
+            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
     }
 
     @Override
